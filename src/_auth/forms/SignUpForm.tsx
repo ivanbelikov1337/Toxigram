@@ -2,25 +2,17 @@ import {FC} from "react";
 import {zodResolver} from "@hookform/resolvers/zod"
 
 
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "../../components/ui/form"
-import { useToast } from "../../components/ui/use-toast.ts"
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "../../components/ui/form"
+import {useToast} from "../../components/ui/use-toast.ts"
 import {Input} from "../../components/ui/input.tsx"
 import {Button} from "../../components/ui/button.tsx"
 import {useForm} from "react-hook-form";
 import {signUpValidation} from "../../lib/validation";
 import {z} from "zod";
 import Loader from "../../components/shared/Loader.tsx";
-import {Link,useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useCreateUserAccount, useSignInAccount} from "../../lib/reactQuery/queriesAndMutations.ts";
 import {useUserContext} from "../../context/AuthContext.tsx";
-
 
 
 interface ISignUpForm {
@@ -30,7 +22,7 @@ interface ISignUpForm {
 
 const SignUpForm: FC<ISignUpForm> = () => {
     const { toast } = useToast()
-    const {checkAuthUser, isLoading:isUserLoading} = useUserContext()
+    const {checkAuthUser} = useUserContext()
     const navigate = useNavigate()
 
     // 1. Define your form.
@@ -46,7 +38,7 @@ const SignUpForm: FC<ISignUpForm> = () => {
 
     // Queries
     const { mutateAsync: createUserAccount, isPending: isCreatingAccount } = useCreateUserAccount();
-    const { mutateAsync: signInAccount, isPending: isSigningInUser } = useSignInAccount();
+    const {mutateAsync: signInAccount} = useSignInAccount();
 
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof signUpValidation>) {
