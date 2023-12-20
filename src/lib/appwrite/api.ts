@@ -5,6 +5,7 @@ import {INewPost, INewUser, IUpdatePost, IUpdateUser} from "../../types";
 
 
 
+
 export async function createUserAccount(user: INewUser) {
     try {
         const newAccount = await account.create(
@@ -210,6 +211,12 @@ export async function searchPosts(searchTerm: string) {
     }
 }
 
+export interface IGetInfinite {
+    documents: any[]
+    total: number
+}
+
+
 export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
     const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(9)];
 
@@ -226,7 +233,8 @@ export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
 
         if (!posts) throw Error;
 
-        return posts;
+
+        return posts as IGetInfinite;
     } catch (error) {
         console.log(error);
     }
