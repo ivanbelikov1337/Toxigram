@@ -22,16 +22,14 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     //ShadCn
-
-    "compilerOptions": {
-      // ...
-      "baseUrl": ".",
-      "paths": {
-        "@/*": [
-          "./src/*"
-        ]
-      }
-    }
+//    "compilerOptions": {
+//      "baseUrl": ".",
+//      "paths": {
+//        "@/*": [
+//          "./src/*"
+//        ]
+//      }
+//    }
   },
   "include": [
     "src"
