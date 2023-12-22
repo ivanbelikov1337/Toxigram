@@ -6,7 +6,7 @@ import {FC} from "react";
 
 interface UserCardProps {
     user: Models.Document;
-};
+}
 
 const UserCard: FC<UserCardProps> = ({ user }) => {
     return (
