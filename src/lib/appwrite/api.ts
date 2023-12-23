@@ -170,7 +170,7 @@ export function getFilePreview(fileId: string) {
             appwriteConfig.storageId,
             fileId,
             2000,
-            1800,
+            1950,
         );
 
         if (!fileUrl) throw Error;
