@@ -1,23 +1,19 @@
-import {
-    Route,
-    Routes,
-    Link,
-    Outlet,
-    useParams,
-    useLocation,
-} from "react-router-dom";
+import {Link, Outlet, Route, Routes, useLocation, useParams,} from "react-router-dom";
 import {useUserContext} from "../../context/AuthContext.tsx";
 import Loader from "../../components/shared/Loader.tsx";
 import {Button} from "../../components/ui/button.tsx";
 import GridPostList from "../../components/shared/GridPostList.tsx";
 import {LikedPosts} from "./index.ts";
 import {useGetUserById} from "../../lib/reactQuery/queriesAndMutations.ts";
+import {useState} from "react";
 
 
 interface StabBlockProps {
     value: string | number;
     label: string;
 }
+
+type followingStatus = false | true | null
 
 const StatBlock = ({ value, label }: StabBlockProps) => (
     <div className="flex-center gap-2">
@@ -30,6 +26,7 @@ const Profile = () => {
     const { id } = useParams();
     const { user } = useUserContext();
     const { pathname } = useLocation();
+    const [isFollowing, setIsFollowing] = useState<followingStatus>(null)
 
     const { data: currentUser } = useGetUserById(id || "");
 
@@ -63,8 +60,9 @@ const Profile = () => {
 
                         <div className="flex gap-8 mt-10 items-center justify-center xl:justify-start flex-wrap z-20">
                             <StatBlock value={currentUser.posts.length} label="Posts" />
-                            <StatBlock value={20} label="Followers" />
-                            <StatBlock value={20} label="Following" />
+                            <StatBlock value={currentUser.followers.length} label="Followers"/>
+                            <StatBlock value={currentUser.following === null ? 0 : currentUser.following.length}
+                                       label="Following"/>
                         </div>
 
                         <p className="small-medium md:base-medium text-center xl:text-left mt-7 max-w-screen-sm">
@@ -91,9 +89,14 @@ const Profile = () => {
                             </Link>
                         </div>
                         <div className={`${user.id === id && "hidden"}`}>
-                            <Button type="button" className="shad-button_primary px-8">
-                                Follow
-                            </Button>
+                            {isFollowing ?
+                                <Button type="button" onClick={() => setIsFollowing(false)} className="shad-button_primary_unfollow px-8">
+                                    unfollow
+                                </Button> :
+                                <Button type="button" onClick={() => setIsFollowing(true)} className="shad-button_primary px-8">
+                                    Follow
+                                </Button>
+                            }
                         </div>
                     </div>
                 </div>
