@@ -2,25 +2,53 @@ import {Models} from "appwrite";
 import {Link} from "react-router-dom";
 
 import {Button} from "../ui/button";
-import {FC, useState} from "react";
-import {followingUser} from "../../lib/appwrite/api.ts";
-import {useUserContext} from "../../context/AuthContext.tsx";
+import {FC, useEffect, useState} from "react";
+import {followingUser, unFollowingUser,} from "../../lib/appwrite/api.ts";
+import Loader from "./Loader.tsx";
+import {useGetUserById} from "../../lib/reactQuery/queriesAndMutations.ts";
 
 interface UserCardProps {
     user: Models.Document;
+    currentUser: string;
 }
 
-type followingStatus = false | true | null
-const UserCard: FC<UserCardProps> = ({ user }) => {
-    const { user: currentUser } = useUserContext();
-    const [isFollowing, setIsFollowing] = useState<followingStatus>(null)
+type followingStatus = false | true
+const UserCard: FC<UserCardProps> = ({ user,currentUser }) => {
+    const {data:currentUserItems} = useGetUserById(currentUser)
+    const [isFollowing, setIsFollowing] = useState<followingStatus>(false)
+    const [loading, setLoading] = useState(false)
+    const [arrayFollowing, setArrayFollowing] = useState<string[]>([])
 
 
-    const handleClickFollowing = async (status: boolean) => {
-        const isUpdate = await followingUser(user.$id, [currentUser.id])
-        console.log(isUpdate)
-        setIsFollowing(status)
+    useEffect(() => {
+        if (currentUserItems) setArrayFollowing(currentUserItems?.following)
+        if (arrayFollowing?.includes(user.$id)) setIsFollowing(true)
+    }, [currentUserItems,arrayFollowing,user.$id]);
+
+
+
+    const handleClickFollowingAdnUnf = async (status: boolean) => {
+        if (status) {
+            setLoading(true)
+            const isUpdate = await followingUser(currentUser, arrayFollowing!, user.$id,user.followers)
+            if (isUpdate) {
+                setLoading(false)
+                setIsFollowing(status)
+            } else {
+                setLoading(false)
+                setIsFollowing(false)
+            }
+
+        } else {
+            setLoading(true)
+            const isUpdate = await unFollowingUser(currentUser, arrayFollowing!, user.$id,user.followers)
+            if (isUpdate) {
+                setLoading(false)
+                setIsFollowing(status)
+            }
+        }
     }
+
 
 
 
@@ -44,13 +72,13 @@ const UserCard: FC<UserCardProps> = ({ user }) => {
 
             </Link>
             {isFollowing ?
-                <Button onClick={() => handleClickFollowing(false)}  type="button" size="sm"
+                <Button disabled={loading} onClick={() => handleClickFollowingAdnUnf(false)}  type="button" size="sm"
                         className="shad-button_primary_unfollow  px-5">
-                    Unfollow
+                    {loading ? <Loader/>: <span>Unfollow</span>}
                 </Button> :
-                <Button onClick={() => handleClickFollowing(true)}  type="button" size="sm"
+                <Button disabled={loading} onClick={() => handleClickFollowingAdnUnf(true)}  type="button" size="sm"
                         className="shad-button_primary z-[100] px-5">
-                    Follow
+                    {loading ? <Loader/>: <span>Follow</span>}
                 </Button>
             }
         </section>

@@ -4,8 +4,6 @@ import {account, appwriteConfig, avatars, databases, storage} from "./config";
 import {INewPost, INewUser, IUpdatePost, IUpdateUser} from "../../types";
 
 
-
-
 export async function createUserAccount(user: INewUser) {
     try {
         const newAccount = await account.create(
@@ -400,21 +398,58 @@ export async function likePost(postId: string, likesArray: string[]) {
     }
 }
 
-export async function followingUser(userId: string, followingArray: string[]) {
+export async function followingUser(userId: string, followingArray: string[] , otherUserId: string, otherUserFollowers: string[]) {
+
+
     try {
         const updatedFollowingUser = await databases.updateDocument(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
             userId,
             {
-
-                following: followingArray,
+                following: followingArray.length > 0 ? followingArray.push(otherUserId)   : [otherUserId] ,
             }
         );
-        console.log(updatedFollowingUser)
-        if (!updatedFollowingUser) throw Error;
+        const updatedFollowersOtherUser = await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.userCollectionId,
+            otherUserId,
+            {
+                followers: otherUserFollowers.length > 0 ?  otherUserFollowers.push(userId) :  [userId],
+            }
+        );
 
-        return updatedFollowingUser;
+        if (!updatedFollowingUser && !updatedFollowersOtherUser) throw Error;
+
+        return "successful";
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function unFollowingUser(userId: string, followingArray: string[], otherUserId: string, otherUserFollowers: string[]) {
+
+    try {
+        const updatedFollowingUser = await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.userCollectionId,
+            userId,
+            {
+                following: followingArray.filter((item) => item !== otherUserId),
+            }
+        );
+        const updatedFollowersOtherUser = await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.userCollectionId,
+            otherUserId,
+            {
+                followers: otherUserFollowers.filter((item) => item !== userId),
+            }
+        );
+
+        if (!updatedFollowingUser && !updatedFollowersOtherUser) throw Error;
+
+        return "successful";
     } catch (error) {
         console.log(error);
     }

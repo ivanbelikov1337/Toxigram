@@ -4,6 +4,7 @@ import {Models} from "appwrite";
 import {useGetRecentPosts, useGetUsers} from "../../lib/reactQuery/queriesAndMutations.ts";
 import PostCard from "../../components/shared/PostCard.tsx";
 import UserCard from "../../components/shared/UserCard.tsx";
+import {useUserContext} from "../../context/AuthContext.tsx";
 
 interface IHome {
 
@@ -20,6 +21,9 @@ const Home: FC<IHome> = () => {
         isLoading: isUserLoading,
         isError: isErrorCreators,
     } = useGetUsers(10);
+    const {user: currentUser} = useUserContext();
+    const fixArrayCreators = creators?.documents.filter((arg) => arg.$id !== currentUser.id)!
+
 
     if (isErrorPosts || isErrorCreators) {
         return (
@@ -54,13 +58,13 @@ const Home: FC<IHome> = () => {
 
             <div className="home-creators">
                 <h3 className="h3-bold text-light-1">Top Creators</h3>
-                {isUserLoading && !creators ? (
+                {isUserLoading && !fixArrayCreators ? (
                     <Loader />
                 ) : (
                     <ul className="grid 2xl:grid-cols-2 gap-6">
-                        {creators?.documents.map((creator) => (
+                        {fixArrayCreators.map((creator) => (
                             <li key={creator?.$id}>
-                                <UserCard user={creator} />
+                                <UserCard user={creator} currentUser={currentUser.id}/>
                             </li>
                         ))}
                     </ul>
