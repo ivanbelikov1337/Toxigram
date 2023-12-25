@@ -1,15 +1,15 @@
 import {FC} from "react";
-import {useGetCurrentUser} from "../../lib/reactQuery/queriesAndMutations.ts";
+import {useGetUserById} from "../../lib/reactQuery/queriesAndMutations.ts";
 import Loader from "../../components/shared/Loader.tsx";
 import ShowUserFollow from "../../components/shared/showUserFollow.tsx";
 
 
 interface IFollowing {
-
+    id: string
 }
 
-const Following: FC<IFollowing> = () => {
-    const { data: currentUser } = useGetCurrentUser();
+const Following: FC<IFollowing> = ({id}) => {
+    const {data: currentUser} = useGetUserById(id);
 
     if (!currentUser)
         return (
