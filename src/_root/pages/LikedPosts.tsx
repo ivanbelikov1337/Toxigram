@@ -6,6 +6,7 @@ import GridPostList from "../../components/shared/GridPostList.tsx";
 const LikedPosts = () => {
     const { data: currentUser } = useGetCurrentUser();
 
+
     if (!currentUser)
         return (
             <div className="flex-center w-full h-full">

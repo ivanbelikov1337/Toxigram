@@ -6,6 +6,8 @@ import GridPostList from "../../components/shared/GridPostList.tsx";
 import {LikedPosts} from "./index.ts";
 import {useGetUserById} from "../../lib/reactQuery/queriesAndMutations.ts";
 import {useState} from "react";
+import Following from "./Following.tsx";
+import Followers from "./Followers.tsx";
 
 
 interface StabBlockProps {
@@ -60,9 +62,13 @@ const Profile = () => {
 
                         <div className="flex gap-8 mt-10 items-center justify-center xl:justify-start flex-wrap z-20">
                             <StatBlock value={currentUser.posts.length} label="Posts" />
-                            <StatBlock value={currentUser.followers.length} label="Followers"/>
-                            <StatBlock value={currentUser.following === null ? 0 : currentUser.following.length}
-                                       label="Following"/>
+                            <Link to={`/profile/${id}/followers`}>
+                                <StatBlock value={currentUser.followers.length} label="Followers"/>
+                            </Link>
+                            <Link to={`/profile/${id}/following`}>
+                                <StatBlock value={currentUser.following === null ? 0 : currentUser.following.length}
+                                           label="Following"/>
+                            </Link>
                         </div>
 
                         <p className="small-medium md:base-medium text-center xl:text-left mt-7 max-w-screen-sm">
@@ -134,13 +140,10 @@ const Profile = () => {
             )}
 
             <Routes>
-                <Route
-                    index
-                    element={<GridPostList posts={currentUser.posts} showUser={false} />}
-                />
-                {currentUser.$id === user.id && (
-                    <Route path="/liked-posts" element={<LikedPosts />} />
-                )}
+                <Route index element={<GridPostList posts={currentUser.posts} showUser={false}/>}/>
+                {currentUser.$id === user.id && (<Route path="/liked-posts" element={<LikedPosts/>}/>)}
+                {currentUser.$id === user.id && (<Route path="/following" element={<Following/>}/>)}
+                {currentUser.$id === user.id && (<Route path="/followers" element={<Followers/>}/>)}
             </Routes>
             <Outlet />
         </div>
