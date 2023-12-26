@@ -400,6 +400,10 @@ export async function likePost(postId: string, likesArray: string[]) {
 
 export async function followingUser(userId: string, followingArray: string[] , otherUserId: string, otherUserFollowers: string[]) {
 
+    const updateArrayIncrementNewUser = [...followingArray, otherUserId]
+    const updateArrayDecrementedOldUser = [...otherUserFollowers, otherUserId]
+
+
 
     try {
         const updatedFollowingUser = await databases.updateDocument(
@@ -407,7 +411,7 @@ export async function followingUser(userId: string, followingArray: string[] , o
             appwriteConfig.userCollectionId,
             userId,
             {
-                following: followingArray.length > 0 ? followingArray.push(otherUserId)   : [otherUserId] ,
+                following: updateArrayIncrementNewUser,
             }
         );
         const updatedFollowersOtherUser = await databases.updateDocument(
@@ -415,7 +419,7 @@ export async function followingUser(userId: string, followingArray: string[] , o
             appwriteConfig.userCollectionId,
             otherUserId,
             {
-                followers: otherUserFollowers.length > 0 ?  otherUserFollowers.push(userId) :  [userId],
+                followers: updateArrayDecrementedOldUser,
             }
         );
 
