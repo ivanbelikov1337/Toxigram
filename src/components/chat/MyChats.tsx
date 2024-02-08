@@ -38,7 +38,7 @@ const MyChats: FC<IMyChats> = ({fetchAgain}) => {
                 <Button
                     display="flex"
                     fontSize={{base: "17px", md: "10px", lg: "17px"}}
-                    rightIcon={<img src="../../../public/assets/icons/edit.svg" alt=""/>}
+                    rightIcon={<img src="/assets/icons/edit.svg" alt=""/>}
                 >
                     <p className="tracking-tighter-[2rem]">New Group Chat</p>
                 </Button>
