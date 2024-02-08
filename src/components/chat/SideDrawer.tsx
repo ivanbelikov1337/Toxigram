@@ -69,14 +69,14 @@ const SideDrawer = () => {
                             <img
                                 src="/assets/icons/search.svg"
                                 className="cursor-pointer"
-                                width={24}
-                                height={24}
+                                width={30}
+                                height={30}
                                 alt="search"
                                 onClick={() => searchUserByNameOrEmail(setSearchResult, toast, setLoading, search, userChat.token, {key: "Enter"})}
                             />
                             <Input
                                 placeholder="Search by name or email"
-                                className="user-message-search"
+                                className="user-message-search text-lg"
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                             />

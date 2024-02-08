@@ -1,5 +1,5 @@
 import {FC, useEffect, useState} from "react";
-import {Avatar, Box, Button, Spinner, Stack, useToast} from "@chakra-ui/react";
+import {Avatar, Button, Stack, useToast} from "@chakra-ui/react";
 import {IChats, IUserChat} from "../../types";
 import {ChatState} from "../../context/chatContext/ChatProvider.tsx";
 import {getSender, getSenderFull} from "../../utility/config.ts";
@@ -43,14 +43,7 @@ const MyChats: FC<IMyChats> = ({fetchAgain}) => {
                     <p className="tracking-tighter-[2rem]">New Group Chat</p>
                 </Button>
             </div>
-            <Box
-                overflowY="hidden"
-                flexDir="column"
-                display="flex"
-                w="100%"
-                h="100%"
-                p={3}
-            >
+            <div className="overflow-y-hidden flex-col flex w-full h-full p3">
                 {chats.length && user ? (
                     <Stack overflowY="scroll">
                         {chats.map((chat: IChats) => {
@@ -103,14 +96,11 @@ const MyChats: FC<IMyChats> = ({fetchAgain}) => {
 
                     </Stack>
                 ) : (
-                    <div className="grid place-content-center mt-[20%] h-full w-full">
-                        <Spinner
-                            w={60}
-                            h={60}
-                        />
-                    </div>
+                    <p className="grid place-content-center mt-[20%] h-full w-full">
+                        You have no chats
+                    </p>
                 )}
-            </Box>
+            </div>
         </section>
     )
 }
