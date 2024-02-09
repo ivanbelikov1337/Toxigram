@@ -197,14 +197,14 @@ export const sendMessage = async (
     socket: Socket,
     newMessage: string,
     selectedChat:IChats,
-    event: KeyboardEvent,
     messages:INotification[],
     setNewMessage: (item: string) => void,
     toast: any,
     setMessages: (item: INotification[]) => void,
+    event?: KeyboardEvent,
 ) => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo")!);
-    if (event.key === "Enter" && newMessage) {
+    if (event?.key === "Enter" && newMessage) {
         socket.emit("stop typing", selectedChat._id);
         try {
             const config = {

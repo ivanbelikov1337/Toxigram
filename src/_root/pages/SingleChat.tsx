@@ -129,7 +129,7 @@ const SingleChat: FC<ISingleChat> = ({fetchAgain, setFetchAgain}) => {
                         )}
                     </div>
                     <FormControl
-                        onKeyDown={(e) => sendMessage(socket,newMessage,selectedChat,e,messages,setNewMessage,toast,setMessages)}
+                        onKeyDown={(e) => sendMessage(socket,newMessage,selectedChat,messages,setNewMessage,toast,setMessages,e)}
                         id="first-name"
                         isRequired
                         className="flex  gap-3 justify-center align-middle rounded-full bg-dark-4 mx-2"
@@ -141,7 +141,7 @@ const SingleChat: FC<ISingleChat> = ({fetchAgain, setFetchAgain}) => {
                                value={newMessage}
                                onChange={(e) => typingHandler(socket,typing,selectedChat,socketConnected,setTyping,setNewMessage,e)}
                         />
-                        <IoMdSend size="2.7rem" className="pt-[0.5rem]  cursor-pointer"/>
+                        <IoMdSend onClick={() => sendMessage(socket,newMessage,selectedChat,messages,setNewMessage,toast,setMessages)} size="2.7rem" className="pt-[0.5rem]  cursor-pointer"/>
                     </FormControl>
                 </>
             ) : (
