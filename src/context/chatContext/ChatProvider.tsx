@@ -54,13 +54,15 @@ const ChatProvider: FC<IChatProvider> = ({children}) => {
     },[selectedChat])
 
     useEffect(() => {
-        socket.on("message recieved", (newMessageRecieved: INotification) => {
-            if (!selectedChatCompare || selectedChatCompare._id !== newMessageRecieved.chat._id) {
-                if (!notification.includes(newMessageRecieved)) {
-                    setNotification([newMessageRecieved, ...notification]);
+        if (userInfo) {
+            socket.on("message recieved", (newMessageRecieved: INotification) => {
+                if (!selectedChatCompare || selectedChatCompare._id !== newMessageRecieved.chat._id) {
+                    if (!notification.includes(newMessageRecieved)) {
+                        setNotification([newMessageRecieved, ...notification]);
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 
     return (

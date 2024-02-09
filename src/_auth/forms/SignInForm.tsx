@@ -14,6 +14,7 @@ import {ChatState} from "../../context/chatContext/ChatProvider.tsx";
 import axios from "axios";
 
 
+
 const SignInForm = () => {
     const {checkAuthUser, isLoading: isUserLoading} = useUserContext()
     const navigate = useNavigate()
@@ -45,7 +46,6 @@ const SignInForm = () => {
         if (!session) return toast({title: "Something went wrong. Please login your new account",})
 
         const isLoggedId = await checkAuthUser()
-
         //login messengers
         try {
             const config = {
@@ -116,7 +116,7 @@ const SignInForm = () => {
                         )}
                     />
                     <Button type="submit" className="shad-button_primary">
-                        {isUserLoading ? (
+                        {isUserLoading  ? (
                             <div className="flex-center gap-2">
                                 <Loader/> Loading...
                             </div>
