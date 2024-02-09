@@ -19,6 +19,7 @@ const MyChats: FC<IMyChats> = ({fetchAgain}) => {
 
     const toast = useToast();
 
+
     useEffect(() => {
         const userInfo = JSON.parse(localStorage.getItem("userInfo")!)
         setLoggedUser(userInfo)

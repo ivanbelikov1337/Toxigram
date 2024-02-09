@@ -33,17 +33,21 @@ const ChatProvider: FC<IChatProvider> = ({children}) => {
     const [chats, setChats] = useState<IChats[]>([]);
     const [selectedChat, setSelectedChat] = useState(INITIAL_STATE_CHATS);
     const [notification, setNotification] = useState<INotification[]>([]);
+    const userInfo = JSON.parse(localStorage.getItem("userInfo")!);
+
+
 
     useEffect(() => {
-        const userInfo = JSON.parse(localStorage.getItem("userInfo")!);
         if (userInfo) setUser(userInfo)
         // eslint-disable-next-line
     }, []);
     useEffect(() => {
-        const userInfo = JSON.parse(localStorage.getItem("userInfo")!);
-        socket = io("https://messengers.onrender.com");
-        socket.emit("setup", userInfo);
-    }, []);
+        if (userInfo) {
+            socket = io("https://messengers.onrender.com");
+            socket.emit("setup", userInfo);
+        }
+        // eslint-disable-next-line
+    }, [user]);
 
     useEffect(() => {
         selectedChatCompare = selectedChat;
