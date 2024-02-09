@@ -78,10 +78,11 @@ const SingleChat: FC<ISingleChat> = ({fetchAgain, setFetchAgain}) => {
 
 
     return (
-        <section className="w-full  grid grid-rows-[3.5rem_1fr_3rem]">
+        <section className="w-full  relative grid grid-rows-[3.5rem_1fr_3rem]">
             {selectedChat && selectedChat.users.length ? (
                 <>
-                    <div className=" w-full flex h-[4rem]  align-middle justify-between px-6">
+                    <div/>
+                    <div className=" w-full flex h-[4rem] fixed  align-middle justify-between px-6">
                         <IconButton
                             aria-label="Button"
                             display={{base: "flex", md: "none"}}
@@ -132,7 +133,7 @@ const SingleChat: FC<ISingleChat> = ({fetchAgain, setFetchAgain}) => {
                         onKeyDown={(e) => sendMessage(socket,newMessage,selectedChat,messages,setNewMessage,toast,setMessages,e)}
                         id="first-name"
                         isRequired
-                        className="flex  gap-3 justify-center align-middle rounded-full bg-dark-4 mx-2"
+                        className="flex h-12  gap-3 justify-center align-middle rounded-full bg-dark-4 mx-2"
                     >
                         <Input className="message-input"
                                variant="filled"
