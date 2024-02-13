@@ -5,10 +5,8 @@ import {useSignOutAccount} from "../../lib/reactQuery/queriesAndMutations.ts";
 import Loader from "./Loader.tsx";
 import {INavLink} from "../../types";
 import {sidebarLinks} from "../../constants";
-import Cookies from "universal-cookie";
 import {ChatState} from "../../context/chatContext/ChatProvider.tsx";
 
-const cookies = new Cookies
 
 const LeftSideBar = () => {
 
@@ -22,17 +20,10 @@ const LeftSideBar = () => {
         e: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
         e.preventDefault();
-        cookies.remove("token")
-        cookies.remove('userId')
-        cookies.remove('email')
-        cookies.remove('userName')
-
         signOut();
         setIsAuthenticated(false)
         setUser(INITIAL_USER)
         navigate("/sign-in")
-
-        window.location.reload();
     };
     const obj:any = {}
     const deleteDuplicateObject = notification.filter((item)=> {

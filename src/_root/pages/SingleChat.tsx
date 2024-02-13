@@ -78,11 +78,10 @@ const SingleChat: FC<ISingleChat> = ({fetchAgain, setFetchAgain}) => {
 
 
     return (
-        <section className="w-full  relative grid grid-rows-[3.5rem_1fr_3rem]">
+        <section className="w-full  relative grid grid-rows-[3rem_1fr_3rem] max-h-full mb-[7rem] ss:mb-0">
             {selectedChat && selectedChat.users.length ? (
                 <>
-                    <div/>
-                    <div className=" w-full flex h-[4rem] fixed  align-middle justify-between px-6">
+                    <div className=" w-full flex h-[4rem]   align-middle  justify-between  px-6">
                         <IconButton
                             aria-label="Button"
                             display={{base: "flex", md: "none"}}

@@ -3,9 +3,6 @@ import {INITIAL_USER, useUserContext} from "../../context/authContext/AuthContex
 import {useEffect} from "react";
 import {Button} from "../ui/button.tsx";
 import {useSignOutAccount} from "../../lib/reactQuery/queriesAndMutations.ts";
-import Cookies from "universal-cookie";
-
-const cookies = new Cookies
 
 const TopBar = () => {
 
@@ -14,16 +11,9 @@ const TopBar = () => {
     const { mutate: signOut, isSuccess } = useSignOutAccount();
     const handleClickSignOut = () => {
         signOut();
-        cookies.remove("token");
-        cookies.remove('userId');
-        cookies.remove('email');
-        cookies.remove('userName');
-
         setIsAuthenticated(false)
         setUser(INITIAL_USER)
         navigate("/sign-in")
-
-        window.location.reload();
     }
     
     useEffect(() => {
