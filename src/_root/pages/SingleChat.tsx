@@ -1,4 +1,4 @@
-import { FC, useEffect, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import {IChats, INotification} from "../../types";
 import io, {Socket} from "socket.io-client";
 import {useToast} from "../../components/ui/use-toast.ts";
@@ -78,7 +78,7 @@ const SingleChat: FC<ISingleChat> = ({fetchAgain, setFetchAgain}) => {
 
 
     return (
-        <section className="w-full  relative grid grid-rows-[3rem_1fr_3rem] max-h-full mb-[7rem] ss:mb-0">
+        <section className="w-full  grid grid-rows-[3rem_1fr_3rem]">
             {selectedChat && selectedChat.users.length ? (
                 <>
                     <div className=" w-full flex h-[4rem]   align-middle  justify-between  px-6">
@@ -93,11 +93,6 @@ const SingleChat: FC<ISingleChat> = ({fetchAgain, setFetchAgain}) => {
                                 <>
                                     <div className="flex gap-1 ml-[4rem]">
                                         <p className="text-lg grid place-content-center">{getSender(user, selectedChat.users)}</p>
-                                        <span className="flex w-[5rem] pt-2">
-                                            {isTyping && (
-                                                <Lottie options={defaultOptions} height="1.2rem" width="10rem"/>
-                                            )}
-                                        </span>
                                     </div>
                                     <Link className="flex items-center" to={`/profile/${getSenderFull(user, selectedChat.users).idAppwrite}`}>
                                         <Avatar src={getSenderFull(user, selectedChat.users).pic}
@@ -125,6 +120,11 @@ const SingleChat: FC<ISingleChat> = ({fetchAgain, setFetchAgain}) => {
                         ) : (
                             <div className="message">
                                 <ScrollableChat messages={messages}/>
+                                <span className="flex w-[5rem] h-[2rem] pt-2">
+                                            {isTyping && (
+                                                <Lottie options={defaultOptions} height="1.2rem" width="10rem"/>
+                                            )}
+                                </span>
                             </div>
                         )}
                     </div>
